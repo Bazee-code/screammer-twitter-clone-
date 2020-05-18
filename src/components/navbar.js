@@ -2,17 +2,17 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {AiOutlineHome} from 'react-icons/ai';
 import {MdNotificationsNone} from 'react-icons/md';
-import {FaMoon} from 'react-icons/fa';
+import {WiMoonAltFirstQuarter} from 'react-icons/wi';
+import {createGlobalStyle} from 'styled-components';
 // REDUX
 import {connect} from 'react-redux';
 import PostScream from './postscream.js';
 
-
-
 class navbar extends React.Component {
 	render() {
 		const {user:{authenticated}} = this.props;
-		const {theme} = this.props;
+		const {handleDarkmode} = this.props;
+		console.log(handleDarkmode);
 		return (
 			<nav className="navbar navbar-expand-md py-3 navbar-dark bg-info">
 				<Link to="/" className="navbar-brand">Screammer</Link>
@@ -36,7 +36,11 @@ class navbar extends React.Component {
 						<Link to="/" className="nav-item nav-link">
 							<button className="btn btn-sm btn-light "><MdNotificationsNone /></button>
 						</Link>
-						
+						<Link className="nav-item nav-link ml-5">
+						<button className="btn btn-sm btn-info btn-outline-dark" data-toggle="tooltip" 
+						data-placement="right" title="Dark mode" 
+						onClick={handleDarkmode}><WiMoonAltFirstQuarter/></button>
+						</Link>
 						</React.Fragment>
 						) : 
 						(

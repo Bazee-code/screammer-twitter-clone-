@@ -3,7 +3,6 @@ import './App.css';
 import {BrowserRouter as Router,Route,Switch} from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
-import {FaMoon} from 'react-icons/fa';
 import {ThemeProvider,createGlobalStyle} from 'styled-components';
 
 // REDUX
@@ -39,23 +38,38 @@ if(token){
   }
 };
 
-// adding dark mode to app
-const GlobalStyle = createGlobalStyle `
-  body{
-    background-color : ${props=>props.theme.mode === 'dark' ? '#111' : '#EEE'};
-    color : ${props=>props.theme.mode === 'dark' ? '#FF33CF' : '#111'};
-  }
-
-`
-
 const App =()=>{
-  const [theme, setTheme] = useState({mode:'light'})
+  const [theme, setTheme] = useState({
+    mode : "light"
+  });
+  
+ // const themeDark = {
+ //  background:"black",
+ //  color : "red"
+ //  };
+
+ //  const themeLight = {
+ //    background: "white",
+ //    color : "black"
+ //  };
+
+  const GlobalStyle = createGlobalStyle `
+    body{
+      background-color : ${props=>props.theme.mode === 'dark' ? 'black' : 'white' };
+      color : ${props=>props.theme.mode === 'dark' ? 'purple' : 'black'};
+     
+    }
+  `
+  const handleDarkmode =(e)=>{
+    setTheme(theme.mode === "dark" ?{mode:'light'} : {mode:'dark'})
+    };
+
     return (
       <ThemeProvider theme={theme}>
       <React.Fragment>
-      <GlobalStyle />
         <Router>
-        <Navbar />
+        <GlobalStyle />
+        <Navbar handleDarkmode={handleDarkmode} />
           <Switch>
           <Route exact path={["/","/dashboard"]} component={Home}/>
           <AuthRoute path="/login" component={Login} /> {/*authenticated={authenticated}/>*/}
@@ -64,9 +78,6 @@ const App =()=>{
           <Route exact path="/users/:handle/scream/:screamId" component={ProfilePage}/>
           </Switch>
         </Router>
-        <button className="btn btn-sm btn-dark" data-toggle="tooltip" data-target="#navBarNav" 
-        title="dark-mode toggle"
-        onClick={e=>setTheme(theme.mode === 'dark' ? {mode : 'light'} :{mode:'dark'})}><FaMoon /></button>
       </React.Fragment>
       </ThemeProvider>
     )
